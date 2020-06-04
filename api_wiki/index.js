@@ -1,17 +1,15 @@
-// var http = new XMLHttpRequest();
-
 var inputElement = document.querySelector('input');
 var display = document.getElementById('display');
 var form = document.querySelector('form');
 var button = document.querySelector('button');
 
 display.style.visibility = 'hidden';
+
 let term ;
 inputElement.addEventListener('keyup', (e) => {
-  // console.log({value: e.target.value});
+  //format the term
   term = e.target.value;
   let replaced = term.replace(" ", "_")
-  // console.log({term, replaced})
   term = replaced;
 })
 
@@ -20,26 +18,33 @@ button.addEventListener('click', (e) => {
   form.reset();
   if(term === "_"){
     display.innerHTML = "";
-    // http.abort();
     display.style.visibility = "hidden";
   } else {
-    $.getJSON(
-      `https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=` +
-      '&origin=*' + // <-- this is the magic ingredient to prevent CORS errors!
-      `&search=${term}`, function (data) { 
-        console.log(data)/* ... */ 
-        getData(data)
-      }
-    );
-  }});
 
-  
+    // $.getJSON(
+      //   `https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=` +
+      //   '&origin=*' + // <-- this is the magic ingredient to prevent CORS errors!
+      //   `&search=${term}`,data =>  getData(data)
+      //   );
+      $.getJSON(
+        ////w/api.php?action=query&format=json&list=search&srsearch=
+      `https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=` +
+      `${term}` +
+      '&origin=*'  // <-- this is the magic ingredient to prevent CORS errors!
+      ,data =>  getSnippet(data)
+      );
+  }
+});
+
 function getData(data){
+  //removing previous search results
   let removingSelection = display.querySelectorAll('li');
   removingSelection.forEach(el => { display.removeChild(el)})
   
+  //separating response data
   let titles = data[1];
   let links = data[3];
+  console.log(data)
 
   for (let i = 0; i < titles.length; i++) {
     if(titles[i] !== ""){
@@ -52,3 +57,13 @@ function getData(data){
   }
 }
 
+
+function getSnippet(data){
+  let dataArray = data.query.search;
+  dataArray.forEach(d => {
+    let snippet = d.snippet;
+    // console.log(snippet)
+    
+  });
+
+}
