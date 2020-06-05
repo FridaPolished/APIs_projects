@@ -59,7 +59,11 @@ function getSnippet(){
   // console.log('hi')
   $.getJSON(
     // `https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=` +
-    `https://en.wikipedia.org/w/api.php?action=query&generator=categories&titles=Albert%20Einstein&prop=info` +
+    // `https://en.wikipedia.org/w/api.php?action=query&format=json&generator=categories&titles=Albert%20Einstein&prop=info` +
+    // `https://en.wikipedia.org/w/api.php?action=query&format=json&generator=categories&titles=Albert%20Einstein` +
+    // http://en.wikipedia.org/w/api.php?
+
+    `https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&titles=Albert%20Einstein&rvsection=0` +
     // `Timeline_of_the_20th_century` +
     '&origin=*'  // <-- this is the magic ingredient to prevent CORS errors!
     , data =>
