@@ -2,6 +2,7 @@ var inputElement = document.querySelector('input');
 var display = document.getElementById('display');
 var form = document.querySelector('form');
 var button = document.querySelector('button');
+var errors = document.querySelector('.errors');
 
 display.style.visibility = 'hidden';
 
@@ -15,7 +16,14 @@ inputElement.addEventListener('keyup', (e) => {
 
 button.addEventListener('click', (e) => {
   e.preventDefault();
+  
+  if(!term){
+    errors.innerHTML = "Please enter a term to search"
+    return;
+  }
+
   form.reset();
+
   if(term === "_"){
     display.innerHTML = "";
     display.style.visibility = "hidden";
@@ -48,6 +56,7 @@ button.addEventListener('click', (e) => {
         item.appendChild(document.createTextNode(titles[i]))
         display.style.visibility = 'visible'
         item.innerHTML = `<a href='${links[i]}'>${titles[i]}</a>`
+        item.classList = 'item';
         display.appendChild(item);
       }  
     }
